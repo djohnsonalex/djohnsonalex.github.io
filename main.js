@@ -23,6 +23,43 @@
       .replace(/"/g, '&quot;');
   }
 
+  function buildProjectMedia(screenshot) {
+    if (!screenshot) return '';
+
+    var frame = screenshot.frame || 'desktop';
+    var frameClass = 'project-media-frame-' + esc(frame);
+    var alt = screenshot.alt || '';
+    var image = screenshot.src
+      ? '<img src="' + esc(screenshot.src) + '" alt="' + esc(alt) + '" loading="lazy">'
+      : '<div class="project-media-empty" aria-hidden="true"></div>';
+    var tag = screenshot.src ? 'button' : 'div';
+    var attrs = screenshot.src
+      ? ' type="button" aria-label="View screenshot" data-screenshot-src="' + esc(screenshot.src) + '" data-screenshot-alt="' + esc(alt) + '" data-screenshot-frame="' + esc(frame) + '"'
+      : '';
+
+    return [
+      '<' + tag + ' class="project-media ' + frameClass + '"' + attrs + '>',
+      '  <div class="project-media-stage">',
+      '    ' + image,
+      '  </div>',
+      '</' + tag + '>',
+    ].join('\n');
+  }
+
+  function buildScreenshotModal() {
+    return [
+      '<div class="screenshot-modal" id="screenshot-modal" aria-hidden="true">',
+      '  <div class="screenshot-modal-backdrop" data-modal-close></div>',
+      '  <div class="screenshot-modal-panel" role="dialog" aria-modal="true" aria-label="Screenshot preview">',
+      '    <button class="screenshot-modal-close" type="button" aria-label="Close screenshot" data-modal-close>&times;</button>',
+      '    <div class="screenshot-modal-stage" id="screenshot-modal-stage">',
+      '      <img id="screenshot-modal-image" alt="">',
+      '    </div>',
+      '  </div>',
+      '</div>',
+    ].join('\n');
+  }
+
   // ================================================================
   //  Section builders
   // ================================================================
@@ -88,6 +125,7 @@
         : '';
       return [
         '<article class="project-card">',
+        '  ' + buildProjectMedia(co.screenshot),
         '  <div>',
         '    <h3 class="project-title">' + esc(co.name) + '</h3>',
         '    ' + subtitle,
@@ -124,6 +162,7 @@
         : '';
       return [
         '<article class="project-card">',
+        '  ' + buildProjectMedia(proj.screenshot),
         '  <h3 class="project-title">' + esc(proj.title) + '</h3>',
         '  <p class="project-description">' + esc(proj.description) + '</p>',
         '  <div class="project-tags">' + tags + '</div>',
@@ -214,6 +253,73 @@
         nav.classList.toggle('scrolled', window.scrollY > 24);
       }, { passive: true });
     }
+
+    // Screenshot lightbox
+    var modal = document.getElementById('screenshot-modal');
+    var modalStage = document.getElementById('screenshot-modal-stage');
+    var modalImage = document.getElementById('screenshot-modal-image');
+    var modalClose = modal ? modal.querySelector('.screenshot-modal-close') : null;
+    var lastFocused = null;
+
+    function closeScreenshotModal() {
+      if (!modal || !modalImage || !modalStage) return;
+
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('modal-open');
+      modalImage.removeAttribute('src');
+      modalImage.alt = '';
+      modalStage.className = 'screenshot-modal-stage';
+
+      if (lastFocused) {
+        lastFocused.focus();
+        lastFocused = null;
+      }
+    }
+
+    function openScreenshotModal(trigger) {
+      if (!modal || !modalImage || !modalStage) return;
+
+      var src = trigger.getAttribute('data-screenshot-src');
+      if (!src) return;
+
+      var alt = trigger.getAttribute('data-screenshot-alt') || '';
+      var frame = trigger.getAttribute('data-screenshot-frame') || 'desktop';
+
+      lastFocused = trigger;
+      modalImage.src = src;
+      modalImage.alt = alt;
+      modalStage.className = 'screenshot-modal-stage screenshot-modal-stage-' + frame;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('modal-open');
+
+      if (modalClose) modalClose.focus();
+    }
+
+    document.querySelectorAll('[data-screenshot-src]').forEach(function (trigger) {
+      trigger.addEventListener('click', function () {
+        openScreenshotModal(trigger);
+      });
+    });
+
+    if (modal) {
+      modal.querySelectorAll('[data-modal-close]').forEach(function (el) {
+        el.addEventListener('click', closeScreenshotModal);
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (!modal.classList.contains('open')) return;
+        if (event.key === 'Escape') {
+          closeScreenshotModal();
+          return;
+        }
+        if (event.key === 'Tab' && modalClose) {
+          event.preventDefault();
+          modalClose.focus();
+        }
+      });
+    }
   }
 
   // ================================================================
@@ -231,6 +337,7 @@
       buildProjects(),
     '</main>',
     buildFooter(),
+    buildScreenshotModal(),
   ].join('\n');
 
   initInteractivity();

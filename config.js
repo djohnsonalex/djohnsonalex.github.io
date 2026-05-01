@@ -31,6 +31,11 @@ var profile = {
       {
         name:        "Dribbleup",
         subtitle:    null,   // set to a string to show a company/context line below the name
+        screenshot: {
+          src:   "assets/screenshots/du-screenshot.png", // e.g. "assets/screenshots/dribbleup.png"
+          alt:   "Dribbleup mobile app screen",
+          frame: "phone-portrait",
+        },
         description: "Led mobile product for a connected sports training platform, owning features across onboarding, training programs, and engagement for consumer athletes.",
         tags:        ["Consumer", "Mobile", "iOS & Android", "Hardware + Software"],
         url:         "https://dribbleup.com",
@@ -39,6 +44,11 @@ var profile = {
       {
         name:        "War Dragons",
         subtitle:    "Pocket Gems",   // shown below the product name
+        screenshot: {
+          src:   "assets/screenshots/war-dragons.png", // e.g. "assets/screenshots/war-dragons.png"
+          alt:   "War Dragons landscape mobile game screen",
+          frame: "phone-landscape",
+        },
         description: "Led product on a top-grossing free-to-play mobile RPG, focused on live events, retention, monetization, and cross-functional execution across design, engineering, and data.",
         tags:        ["Mobile Gaming", "Free-to-Play", "iOS & Android", "Live Ops"],
         url:         "https://apps.apple.com/us/app/war-dragons/id958763157",   // paste the War Dragons App Store link here
@@ -60,6 +70,11 @@ var profile = {
   projects: [
     {
       title:       "fAI Workout",
+      screenshot: {
+        src:   "assets/screenshots/fai-screenshot.png", // e.g. "assets/screenshots/fai-workout.png"
+        alt:   "fAI Workout mobile app screen",
+        frame: "phone-portrait",
+      },
       description: "AI-generated HIIT and strength workouts personalized to equipment, duration, intensity, and workout history. Built end-to-end as a solo product builder.",
       tags:        ["AI Product", "iOS", "Consumer", "Subscription"],
       url:         "https://fai-workout.com/",
@@ -67,6 +82,11 @@ var profile = {
     },
     {
       title:       "Tembric",
+      screenshot: {
+        src:   "assets/screenshots/studio-prompts.png", // e.g. "assets/screenshots/tembric.png"
+        alt:   "Tembric desktop web app screen",
+        frame: "desktop",
+      },
       description: "Open-source prompt management and LLM routing concept for lean product teams and AI-enabled builders. Designed for local-first, low-overhead workflows.",
       tags:        ["LLM Tooling", "Open Source", "Prompt Management", "Local-first"],
       url:         null,

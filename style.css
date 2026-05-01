@@ -47,6 +47,7 @@ body  {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+body.modal-open { overflow: hidden; }
 a      { color: inherit; text-decoration: none; }
 ul     { list-style: none; }
 button { font-family: inherit; cursor: pointer; }
@@ -394,6 +395,88 @@ button { font-family: inherit; cursor: pointer; }
   gap: 12px;
 }
 .project-icon { font-size: 22px; line-height: 1; flex-shrink: 0; }
+.project-media {
+  width: 100%;
+  height: 176px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    linear-gradient(135deg, rgba(17,24,39,0.04), rgba(217,119,6,0.08)),
+    var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  padding: 0;
+  color: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+button.project-media:hover {
+  border-color: var(--border-hover);
+  box-shadow: inset 0 0 0 1px rgba(217,119,6,0.18);
+  transform: translateY(-1px);
+}
+button.project-media:focus-visible {
+  outline: 3px solid rgba(217,119,6,0.28);
+  outline-offset: 3px;
+}
+.project-media-stage {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid rgba(17,24,39,0.10);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s;
+}
+button.project-media:hover .project-media-stage {
+  transform: scale(1.02);
+}
+.project-media-stage img,
+.project-media-empty {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.project-media-stage img {
+  object-fit: cover;
+}
+.project-media-empty {
+  background:
+    linear-gradient(135deg, rgba(17,24,39,0.06), rgba(17,24,39,0.01)),
+    repeating-linear-gradient(
+      135deg,
+      rgba(17,24,39,0.05) 0,
+      rgba(17,24,39,0.05) 1px,
+      transparent 1px,
+      transparent 10px
+    );
+}
+.project-media-frame-phone-portrait .project-media-stage {
+  width: 82px;
+  height: 150px;
+  border-radius: 18px;
+}
+.project-media-frame-phone-landscape .project-media-stage {
+  width: min(100%, 250px);
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+}
+.project-media-frame-desktop .project-media-stage {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-sm);
+}
+.project-media-frame-desktop .project-media-stage::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 13px;
+  background: rgba(17,24,39,0.08);
+  border-bottom: 1px solid rgba(17,24,39,0.08);
+  z-index: 1;
+}
 .project-title {
   font-size: 17px;
   font-weight: 600;
@@ -439,6 +522,98 @@ button { font-family: inherit; cursor: pointer; }
   transition: color 0.15s;
 }
 .project-link-secondary:hover { color: var(--text); }
+
+/* ============================================================
+   Screenshot modal
+   ============================================================ */
+.screenshot-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+.screenshot-modal.open { display: flex; }
+.screenshot-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(17,24,39,0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.screenshot-modal-panel {
+  position: relative;
+  z-index: 1;
+  max-width: min(1040px, 100%);
+  max-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.screenshot-modal-close {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 50%;
+  background: rgba(17,24,39,0.92);
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  box-shadow: var(--shadow);
+}
+.screenshot-modal-close:hover { background: #111827; }
+.screenshot-modal-close:focus-visible {
+  outline: 3px solid rgba(255,255,255,0.42);
+  outline-offset: 3px;
+}
+.screenshot-modal-stage {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.36);
+}
+.screenshot-modal-stage img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.screenshot-modal-stage-phone-portrait {
+  height: min(82vh, 820px);
+  aspect-ratio: 9 / 19.5;
+  border-radius: 32px;
+}
+.screenshot-modal-stage-phone-landscape {
+  width: min(92vw, 1040px);
+  aspect-ratio: 16 / 9;
+  border-radius: 22px;
+}
+.screenshot-modal-stage-desktop {
+  width: min(92vw, 1040px);
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius);
+}
+.screenshot-modal-stage-desktop::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 22px;
+  background: rgba(17,24,39,0.08);
+  border-bottom: 1px solid rgba(17,24,39,0.08);
+  z-index: 1;
+}
 
 /* ============================================================
    What I'm Looking For — role cards
@@ -521,4 +696,19 @@ button { font-family: inherit; cursor: pointer; }
 
   .projects-grid { grid-template-columns: 1fr; }
   .roles-grid    { grid-template-columns: 1fr; }
+
+  .screenshot-modal {
+    padding: 18px;
+  }
+  .screenshot-modal-close {
+    top: 10px;
+    right: 10px;
+  }
+  .screenshot-modal-stage-phone-portrait {
+    height: min(82vh, 720px);
+  }
+  .screenshot-modal-stage-phone-landscape,
+  .screenshot-modal-stage-desktop {
+    width: 100%;
+  }
 }
