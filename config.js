@@ -13,25 +13,37 @@ var profile = {
   status: null,
 
   // ---- Hero -----------------------------------------------------------
-  headline: "Consumer subscription PM turned AI product builder",
-  tagline:  "I've shipped mobile products at scale across onboarding, engagement, retention, and growth — and now I'm building AI-native products hands-on.",
+  headline: "Consumer PM and AI product builder",
+  tagline:  "I've shipped mobile products at scale across onboarding, engagement, retention, and growth, and now I'm building AI-native products hands-on.",
 
   // ---- Links (update these!) ------------------------------------------
   links: {
-    linkedin: "#",                        // e.g. "https://linkedin.com/in/yourhandle"
+    linkedin: "https://www.linkedin.com/in/alex-johnson-product-manager/",
     github:   "https://github.com/djohnsonalex",
   },
 
-  // ---- Product Background ---------------------------------------------
-  background: {
+  // ---- Experience (company cards) ------------------------------------
+  experience: {
+    label: "Experience",
     title: "Product Background",
-    intro:  "Consumer product leader with experience across the full funnel — from first launch to scaled growth.",
-    highlights: [
-      "Led mobile product across onboarding, activation, engagement, retention, and experimentation at a consumer subscription company",
-      "Shipped features used by millions of users across iOS and Android",
-      "Drove measurable lift in trial conversion, early engagement, and long-term retention",
-      "Partnered with engineering, design, data science, and marketing to define roadmap and execute at pace",
-      "Comfortable owning strategy and getting into the details — PRDs, A/B test design, sprint planning, stakeholder alignment",
+    intro:  "Consumer product leader with experience across the full funnel, from first launch to scaled growth.",
+    companies: [
+      {
+        name:        "Dribbleup",
+        subtitle:    null,   // set to a string to show a company/context line below the name
+        description: "Led mobile product for a connected sports training platform, owning features across onboarding, training programs, and engagement for consumer athletes.",
+        tags:        ["Consumer", "Mobile", "iOS & Android", "Hardware + Software"],
+        url:         "https://dribbleup.com",
+        urlLabel:    "Visit site",
+      },
+      {
+        name:        "War Dragons",
+        subtitle:    "Pocket Gems",   // shown below the product name
+        description: "Led product on a top-grossing free-to-play mobile RPG, focused on live events, retention, monetization, and cross-functional execution across design, engineering, and data.",
+        tags:        ["Mobile Gaming", "Free-to-Play", "iOS & Android", "Live Ops"],
+        url:         "https://apps.apple.com/us/app/war-dragons/id958763157",   // paste the War Dragons App Store link here
+        urlLabel:    "App Store",
+      },
     ],
   },
 
@@ -39,7 +51,7 @@ var profile = {
   aiSection: {
     label: "AI Product Work",
     title: "Building AI-native products",
-    intro:  "Hands-on product building — not just spec-writing, but coding, shipping, and iterating on real products.",
+    intro:  "Hands-on product building: not just spec-writing, but coding, shipping, and iterating on real products.",
   },
 
   // ---- Projects -------------------------------------------------------
@@ -48,19 +60,17 @@ var profile = {
   projects: [
     {
       title:       "fAI Workout",
-      icon:        "💪",
       description: "AI-generated HIIT and strength workouts personalized to equipment, duration, intensity, and workout history. Built end-to-end as a solo product builder.",
       tags:        ["AI Product", "iOS", "Consumer", "Subscription"],
-      caseStudy:   "#",   // link to case study page
+      url:         "https://fai-workout.com/",
       github:      null,  // no public repo — set to URL string to show link
     },
     {
       title:       "Tembric",
-      icon:        "⚡",
       description: "Open-source prompt management and LLM routing concept for lean product teams and AI-enabled builders. Designed for local-first, low-overhead workflows.",
       tags:        ["LLM Tooling", "Open Source", "Prompt Management", "Local-first"],
-      caseStudy:   "#",
-      github:      "#",   // link to GitHub repo
+      url:         null,
+      github:      "https://github.com/djohnsonalex/tembric",
     },
   ],
 

@@ -58,6 +58,11 @@ In `config.js`, add an object to `profile.projects`:
 }
 ```
 
+## Brand names
+- "Dribbleup" — only the D is capitalized, the U is lowercase
+- "fAI Workout" — lowercase f, uppercase AI
+- "Tembric" — capitalize first letter only
+
 ## Do not
 - Do not use emojis anywhere in this file or in any generated content or copy
 - Do not add a blog, backend, or CMS

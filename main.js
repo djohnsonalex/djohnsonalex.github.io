@@ -75,22 +75,36 @@
   }
 
   function buildBackground() {
-    var bg = profile.background;
-    var items = bg.highlights.map(function (h) {
+    var exp = profile.experience;
+    var cards = exp.companies.map(function (co) {
+      var tags = co.tags.map(function (t) {
+        return '<span class="tag">' + esc(t) + '</span>';
+      }).join('');
+      var subtitle = co.subtitle
+        ? '<span class="company-subtitle">' + esc(co.subtitle) + '</span>'
+        : '';
+      var link = co.url
+        ? '<div class="project-actions"><a href="' + esc(co.url) + '" class="project-link-secondary" target="_blank" rel="noopener">' + esc(co.urlLabel) + ' ↗</a></div>'
+        : '';
       return [
-        '<li class="highlight-item">',
-        '  <span class="highlight-bullet" aria-hidden="true"></span>',
-        '  <span>' + esc(h) + '</span>',
-        '</li>',
-      ].join('');
+        '<article class="project-card">',
+        '  <div>',
+        '    <h3 class="project-title">' + esc(co.name) + '</h3>',
+        '    ' + subtitle,
+        '  </div>',
+        '  <p class="project-description">' + esc(co.description) + '</p>',
+        '  <div class="project-tags">' + tags + '</div>',
+        '  ' + link,
+        '</article>',
+      ].join('\n');
     }).join('\n');
     return [
       '<section class="section" id="background">',
       '  <div class="container">',
-      '    <div class="section-label">Experience</div>',
-      '    <h2 class="section-title">' + esc(bg.title) + '</h2>',
-      '    <p class="section-intro">' + esc(bg.intro) + '</p>',
-      '    <ul class="highlights-list">' + items + '</ul>',
+      '    <div class="section-label">' + esc(exp.label) + '</div>',
+      '    <h2 class="section-title">' + esc(exp.title) + '</h2>',
+      '    <p class="section-intro">' + esc(exp.intro) + '</p>',
+      '    <div class="projects-grid">' + cards + '</div>',
       '  </div>',
       '</section>',
     ].join('\n');
@@ -102,21 +116,18 @@
       var tags = proj.tags.map(function (t) {
         return '<span class="tag">' + esc(t) + '</span>';
       }).join('');
-      var githubLink = proj.github
-        ? '<a href="' + esc(proj.github) + '" class="project-link-secondary" target="_blank" rel="noopener">GitHub ↗</a>'
+      var urlLink    = proj.url    ? '<a href="' + esc(proj.url)    + '" class="project-link-secondary" target="_blank" rel="noopener">Visit site ↗</a>' : '';
+      var githubLink = proj.github ? '<a href="' + esc(proj.github) + '" class="project-link-secondary" target="_blank" rel="noopener">GitHub ↗</a>'    : '';
+      var hasActions = proj.url || proj.github;
+      var actionsHtml = hasActions
+        ? '  <div class="project-actions">\n    ' + [urlLink, githubLink].filter(Boolean).join('\n    ') + '\n  </div>'
         : '';
       return [
         '<article class="project-card">',
-        '  <div class="project-card-top">',
-        '    <span class="project-icon" aria-hidden="true">' + esc(proj.icon) + '</span>',
-        '    <h3 class="project-title">' + esc(proj.title) + '</h3>',
-        '  </div>',
+        '  <h3 class="project-title">' + esc(proj.title) + '</h3>',
         '  <p class="project-description">' + esc(proj.description) + '</p>',
         '  <div class="project-tags">' + tags + '</div>',
-        '  <div class="project-actions">',
-        '    <a href="' + esc(proj.caseStudy) + '" class="project-link">View case study →</a>',
-        '    ' + githubLink,
-        '  </div>',
+        actionsHtml,
         '</article>',
       ].join('\n');
     }).join('\n');
