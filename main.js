@@ -294,6 +294,10 @@
       modal.setAttribute('aria-hidden', 'false');
       document.body.classList.add('modal-open');
 
+      if (window.posthog) {
+        window.posthog.capture('screenshot_viewed', { alt: alt, frame: frame });
+      }
+
       if (modalClose) modalClose.focus();
     }
 
@@ -320,6 +324,18 @@
         }
       });
     }
+
+    // Track external link clicks
+    document.querySelectorAll('a[target="_blank"]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        if (window.posthog) {
+          window.posthog.capture('external_link_clicked', {
+            label: link.textContent.trim(),
+            url: link.href
+          });
+        }
+      });
+    });
   }
 
   // ================================================================
